@@ -1,2 +1,6 @@
 /build/
 /dist/
+src/aasim/AAsim.form
+/AASim/nbproject/private/
+/AASim/build/
+/AASim/dist/
