@@ -332,7 +332,7 @@
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="15" rowCount="0">
+                      <Table columnCount="16" rowCount="0">
                         <Column editable="false" title="Winner" type="java.lang.String"/>
                         <Column editable="false" title="INF" type="java.lang.Integer"/>
                         <Column editable="false" title="ART" type="java.lang.Integer"/>
@@ -346,12 +346,18 @@
                         <Column editable="false" title="SUB" type="java.lang.Integer"/>
                         <Column editable="false" title="TRAN" type="java.lang.Integer"/>
                         <Column editable="false" title="%" type="java.lang.Float"/>
+                        <Column editable="false" title="C %" type="java.lang.Float"/>
                         <Column editable="false" title="A IPC" type="java.lang.Integer"/>
                         <Column editable="false" title="D IPC" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -454,14 +460,20 @@
                   <Properties>
                     <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="0">
+                      <Table columnCount="4" rowCount="0">
                         <Column editable="false" title="%" type="java.lang.Float"/>
+                        <Column editable="false" title="C %" type="java.lang.Float"/>
                         <Column editable="false" title="A IPC" type="java.lang.Integer"/>
-                        <Column editable="true" title="D IPC" type="java.lang.Integer"/>
+                        <Column editable="false" title="D IPC" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>

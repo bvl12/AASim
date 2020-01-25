@@ -81,10 +81,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   }
 
   public boolean hasGroundUnits(int[] units){
-        if(units[0] > 0 || units[1] > 0 || units[2] > 0)
-            return true;
-        else return false;
-    }
+    return units[0] > 0 || units[1] > 0 || units[2] > 0;
+  }
   
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -288,14 +286,14 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
       },
       new String [] {
-        "Winner", "INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "%", "A IPC", "D IPC"
+        "Winner", "INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "%", "C %", "A IPC", "D IPC"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
+        java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
       };
       boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -316,14 +314,14 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
       },
       new String [] {
-        "%", "A IPC", "D IPC"
+        "%", "C %", "A IPC", "D IPC"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
+        java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
       };
       boolean[] canEdit = new boolean [] {
-        false, false, true
+        false, false, false, false
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -1036,6 +1034,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int DIPCcost = 0;
     BattleResult[] keys = results.keySet().toArray(br);
     ResultsModel.setRowCount(results.size());
+    float cumulative_pct = 0;
     for(int i = 0; i < results.size(); i++){
         DIPCcost += results.get(keys[i]) * keys[i].DEFIPC;
         AIPCcost += results.get(keys[i]) * keys[i].ATKIPC;
@@ -1062,8 +1061,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             ResultsModel.setValueAt(keys[i].remainingunits.units[j], i, j+1);
 
         ResultsModel.setValueAt((float)round(results.get(keys[i])*1000/iterations)/10,i,12);
-        ResultsModel.setValueAt(keys[i].ATKIPC,i,13);
-        ResultsModel.setValueAt(keys[i].DEFIPC,i,14);
+        cumulative_pct += (float)round(results.get(keys[i])*1000/iterations)/10;
+        ResultsModel.setValueAt(cumulative_pct,i,13);
+        ResultsModel.setValueAt(keys[i].ATKIPC,i,14);
+        ResultsModel.setValueAt(keys[i].DEFIPC,i,15);
     }
     SummaryModel.setValueAt(round((ATKwin * 100 / iterations)), 0, 1);
     SummaryModel.setValueAt(round((DEFwin * 100 / iterations)), 1, 1);
@@ -1105,14 +1106,17 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int DIPCcost = 0;
     SingleTurnResult[] keys = singleresults.keySet().toArray(br);
     SingleTOAModel.setRowCount(singleresults.size());
+    float cumulative_pct = 0;
     for(int i = 0; i < singleresults.size(); i++){
         DIPCcost += singleresults.get(keys[i]) * keys[i].DEFIPC;
         AIPCcost += singleresults.get(keys[i]) * keys[i].ATKIPC;
         
 
         SingleTOAModel.setValueAt((float)round(singleresults.get(keys[i])*1000/iterations)/10,i,0);
-        SingleTOAModel.setValueAt(keys[i].ATKIPC,i,1);
-        SingleTOAModel.setValueAt(keys[i].DEFIPC,i,2);
+        cumulative_pct += (float)round(singleresults.get(keys[i])*1000/iterations)/10;
+        SingleTOAModel.setValueAt(cumulative_pct,i,1);
+        SingleTOAModel.setValueAt(keys[i].ATKIPC,i,2);
+        SingleTOAModel.setValueAt(keys[i].DEFIPC,i,3);
     }
   }
   
