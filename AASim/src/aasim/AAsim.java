@@ -17,6 +17,19 @@ import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 
 public class AAsim extends javax.swing.JFrame implements TableModelListener{
+  private static final int INF = 0;
+  private static final int ART = 1;
+  private static final int TANK = 2;
+  private static final int FTR = 3;
+  private static final int BMBR = 4;
+  private static final int AC = 5;
+  private static final int BS = 6;
+  private static final int CRSR = 7;
+  private static final int DEST = 8;
+  private static final int SUB = 9;
+  private static final int TRAN = 10;
+  private static final int WBS = 11;
+
   public AAsim() {
     initComponents();
     ATKModel = (DefaultTableModel) ATKtable.getModel();
@@ -81,7 +94,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   }
 
   public boolean hasGroundUnits(int[] units){
-    return units[0] > 0 || units[1] > 0 || units[2] > 0;
+    return units[INF] > 0 || units[ART] > 0 || units[FTR] > 0;
   }
   
   @SuppressWarnings("unchecked")
@@ -512,86 +525,31 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int AIPC = 0;
         int DIPC = 0;
         if(antiAir){
-            for(int i = 0; i < aarr[3]; i++){
+            for(int i = 0; i < aarr[FTR]; i++){
                 if(rollDie()==1)
                     Aloss++;
             }
-            a.units[3] -= Aloss;
+            a.units[FTR] -= Aloss;
             a.count -= Aloss;
-            AIPC += IPCvals[3] * Aloss;
+            AIPC += IPCvals[FTR] * Aloss;
            
             Aloss = 0;
-            for(int i = 0; i < aarr[4]; i++)
+            for(int i = 0; i < aarr[BMBR]; i++)
                 if(rollDie()==1)
                     Aloss++;
-            a.units[4] -= Aloss;
+            a.units[BMBR] -= Aloss;
             a.count -= Aloss;
-            AIPC += IPCvals[4] * Aloss;
+            AIPC += IPCvals[BMBR] * Aloss;
             Aloss = 0;
         }
         if(amphibiousAssault){
-            for(int i = 0; i < a.units[6]; i++){
-                if(rollDie()<=atkvals[6]){
-                    if(d.units[6] > 0){
-                        d.units[6]--;
-                        d.units[lossIndex(OoL,11)]++;
-                    }
-                    else if(d.units[OoL[0]] > 0){
-                        d.units[OoL[0]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[0]];
-                    }
-                    else if(d.units[OoL[1]] > 0){
-                        d.units[OoL[1]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[1]];
-                    }
-                    else if(d.units[OoL[2]] > 0){
-                        d.units[OoL[2]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[2]];
-                    }
-                    else if(d.units[OoL[3]] > 0){
-                        d.units[OoL[3]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[3]];
-                    }
-                    else if(d.units[OoL[4]] > 0){
-                        d.units[OoL[4]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[4]];
-                    }
-                    else if(d.units[OoL[5]] > 0){
-                        d.units[OoL[5]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[5]];
-                    }
-                    else if(d.units[OoL[6]] > 0){
-                        d.units[OoL[6]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[6]];
-                    }
-                    else if(d.units[OoL[7]] > 0){
-                        d.units[OoL[7]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[7]];
-                    }
-                    else if(d.units[OoL[8]] > 0){
-                        d.units[OoL[8]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[8]];
-                    }
-                    else if(d.units[OoL[9]] > 0){
-                        d.units[OoL[9]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[9]];
-                    }
-                    else if(d.units[OoL[10]] > 0){
-                        d.units[OoL[10]]--;
-                        d.count--;
-                        DIPC += IPCvals[OoL[10]];
-                    }
-                }
+            for(int i = 0; i < a.units[BS] + a.units[WBS]; i++){
+                if(rollDie() < atkvals[BS])
+                    Dloss++;
+            }
+            for(int i = 0; i < a.units[CRSR]; i++){
+                if(rollDie() < atkvals[CRSR])
+                    Dloss++;
             }
             //sanitize results by removing sea units because this is a land battle
             for(int i = 5; i < 11; i++){
