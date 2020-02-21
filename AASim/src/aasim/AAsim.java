@@ -525,7 +525,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int AIPC = 0;
         int DIPC = 0;
         if(antiAir){
-            for(int i = 0; i < aarr[FTR]; i++){
+            for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
                     Aloss++;
             }
@@ -534,7 +534,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             AIPC += IPCvals[FTR] * Aloss;
            
             Aloss = 0;
-            for(int i = 0; i < aarr[BMBR]; i++)
+            for(int i = 0; i < a.units[BMBR]; i++)
                 if(rollDie()==1)
                     Aloss++;
             a.units[BMBR] -= Aloss;
@@ -570,139 +570,139 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             }
             
             for(int i = 0; i < Aloss; i++){
-                if(a.units[6] > 0){
-                    a.units[6]--;
-                    a.units[lossIndex(OoL,11)]++;
+                if(a.units[BS] > 0){
+                    a.units[BS]--;
+                    a.units[lossIndex(OoL, WBS)]++;
                 }
-                else if(a.units[OoL[0]] > 0){
-                    a.units[OoL[0]]--;
+                else if(a.units[OoL[INF]] > 0){
+                    a.units[OoL[INF]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[0]];
+                    AIPC += IPCvals[OoL[INF]];
                 }
-                else if(a.units[OoL[1]] > 0){
-                    a.units[OoL[1]]--;
+                else if(a.units[OoL[ART]] > 0){
+                    a.units[OoL[ART]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[1]];
+                    AIPC += IPCvals[OoL[ART]];
                 }
-                else if(a.units[OoL[2]] > 0){
-                    a.units[OoL[2]]--;
+                else if(a.units[OoL[TANK]] > 0){
+                    a.units[OoL[TANK]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[2]];
+                    AIPC += IPCvals[OoL[TANK]];
                 }
-                else if(a.units[OoL[3]] > 0){
-                    a.units[OoL[3]]--;
+                else if(a.units[OoL[FTR]] > 0){
+                    a.units[OoL[FTR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[3]];
+                    AIPC += IPCvals[OoL[FTR]];
                 }
-                else if(a.units[OoL[4]] > 0){
-                    a.units[OoL[4]]--;
+                else if(a.units[OoL[BMBR]] > 0){
+                    a.units[OoL[BMBR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[4]];
+                    AIPC += IPCvals[OoL[BMBR]];
                 }
-                else if(a.units[OoL[5]] > 0){
-                    a.units[OoL[5]]--;
+                else if(a.units[OoL[AC]] > 0){
+                    a.units[OoL[AC]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[5]];
+                    AIPC += IPCvals[OoL[AC]];
                 }
-                else if(a.units[OoL[6]] > 0){
-                    a.units[OoL[6]]--;
+                else if(a.units[OoL[BS]] > 0){
+                    a.units[OoL[BS]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[6]];
+                    AIPC += IPCvals[OoL[BS]];
                 }
-                else if(a.units[OoL[7]] > 0){
-                    a.units[OoL[7]]--;
+                else if(a.units[OoL[CRSR]] > 0){
+                    a.units[OoL[CRSR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[7]];
+                    AIPC += IPCvals[OoL[CRSR]];
                 }
-                else if(a.units[OoL[8]] > 0){
-                    a.units[OoL[8]]--;
+                else if(a.units[OoL[DEST]] > 0){
+                    a.units[OoL[DEST]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[8]];
+                    AIPC += IPCvals[OoL[DEST]];
                 }
-                else if(a.units[OoL[9]] > 0){
-                    a.units[OoL[9]]--;
+                else if(a.units[OoL[SUB]] > 0){
+                    a.units[OoL[SUB]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[9]];
+                    AIPC += IPCvals[OoL[SUB]];
                 }
-                else if(a.units[OoL[10]] > 0){
-                    a.units[OoL[10]]--;
+                else if(a.units[OoL[TRAN]] > 0){
+                    a.units[OoL[TRAN]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[10]];
+                    AIPC += IPCvals[OoL[TRAN]];
                 }
             }
             for(int i = 0; i < Dloss; i++){
-                if(d.units[6] > 0){
-                    d.units[6]--;
-                    d.units[lossIndex(OoL,11)]++;
+                if(d.units[BS] > 0){
+                    d.units[BS]--;
+                    d.units[lossIndex(OoL,WBS)]++;
                 }
-                else if(d.units[OoL[0]] > 0){
-                    d.units[OoL[0]]--;
+                else if(d.units[OoL[INF]] > 0){
+                    d.units[OoL[INF]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[0]];
+                    DIPC += IPCvals[OoL[INF]];
                 }
-                else if(d.units[OoL[1]] > 0){
-                    d.units[OoL[1]]--;
+                else if(d.units[OoL[ART]] > 0){
+                    d.units[OoL[ART]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[1]];
+                    DIPC += IPCvals[OoL[ART]];
                 }
-                else if(d.units[OoL[2]] > 0){
-                    d.units[OoL[2]]--;
+                else if(d.units[OoL[TANK]] > 0){
+                    d.units[OoL[TANK]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[2]];
+                    DIPC += IPCvals[OoL[TANK]];
                 }
-                else if(d.units[OoL[3]] > 0){
-                    d.units[OoL[3]]--;
+                else if(d.units[OoL[FTR]] > 0){
+                    d.units[OoL[FTR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[3]];
+                    DIPC += IPCvals[OoL[FTR]];
                 }
-                else if(d.units[OoL[4]] > 0){
-                    d.units[OoL[4]]--;
+                else if(d.units[OoL[BMBR]] > 0){
+                    d.units[OoL[BMBR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[4]];
+                    DIPC += IPCvals[OoL[BMBR]];
                 }
-                else if(d.units[OoL[5]] > 0){
-                    d.units[OoL[5]]--;
+                else if(d.units[OoL[AC]] > 0){
+                    d.units[OoL[AC]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[5]];
+                    DIPC += IPCvals[OoL[AC]];
                 }
-                else if(d.units[OoL[6]] > 0){
-                    d.units[OoL[6]]--;
+                else if(d.units[OoL[BS]] > 0){
+                    d.units[OoL[BS]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[6]];
+                    DIPC += IPCvals[OoL[BS]];
                 }
-                else if(d.units[OoL[7]] > 0){
-                    d.units[OoL[7]]--;
+                else if(d.units[OoL[CRSR]] > 0){
+                    d.units[OoL[CRSR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[7]];
+                    DIPC += IPCvals[OoL[CRSR]];
                 }
-                else if(d.units[OoL[8]] > 0){
-                    d.units[OoL[8]]--;
+                else if(d.units[OoL[DEST]] > 0){
+                    d.units[OoL[DEST]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[8]];
+                    DIPC += IPCvals[OoL[DEST]];
                 }
-                else if(d.units[OoL[9]] > 0){
-                    d.units[OoL[9]]--;
+                else if(d.units[OoL[SUB]] > 0){
+                    d.units[OoL[SUB]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[9]];
+                    DIPC += IPCvals[OoL[SUB]];
                 }
-                else if(d.units[OoL[10]] > 0){
-                    d.units[OoL[10]]--;
+                else if(d.units[OoL[TRAN]] > 0){
+                    d.units[OoL[TRAN]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[10]];
+                    DIPC += IPCvals[OoL[TRAN]];
                 }
             }
             Aloss = 0;
             Dloss = 0;
             if(a.count <= 0){
-                d.units[6]+= d.units[lossIndex(OoL,11)];
-                d.units[lossIndex(OoL,11)] = 0;
+                d.units[BS]+= d.units[lossIndex(OoL, WBS)];
+                d.units[lossIndex(OoL, WBS)] = 0;
                 if(d.count <= 0)
                     return new BattleResult(-1,d, AIPC, DIPC);
                 return new BattleResult(0, d, AIPC, DIPC);
             }
             if(d.count <= 0){
-                a.units[6]+= d.units[lossIndex(OoL,11)];
-                a.units[lossIndex(OoL,11)] = 0;
+                a.units[BS]+= d.units[lossIndex(OoL, WBS)];
+                a.units[lossIndex(OoL, WBS)] = 0;
                 if(a.count <= 0)
                     return new BattleResult(-1,d, AIPC, DIPC);
                 return new BattleResult(1, a, AIPC, DIPC);
@@ -711,7 +711,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         
     }
   
-  public SingleTurnResult simsingle(int[] aarr, int[] darr){
+  public SingleTurnResult simsinglebat(int[] aarr, int[] darr){
     Units a = new Units(aarr);
     Units d = new Units(darr);
     int Aloss = 0;
@@ -719,84 +719,84 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int AIPC = 0;
     int DIPC = 0;
     if(antiAir){
-      for(int i = 0; i < aarr[3]; i++){
+      for(int i = 0; i < a.units[FTR]; i++){
         if(rollDie()==1)
           Aloss++;
       }
-      a.units[3] -= Aloss;
+      a.units[FTR] -= Aloss;
       a.count -= Aloss;
-      AIPC += IPCvals[3] * Aloss;
+      AIPC += IPCvals[FTR] * Aloss;
 
       Aloss = 0;
-      for(int i = 0; i < aarr[4]; i++)
+      for(int i = 0; i < a.units[BMBR]; i++)
         if(rollDie()==1)
           Aloss++;
-      a.units[4] -= Aloss;
+      a.units[BMBR] -= Aloss;
       a.count -= Aloss;
-      AIPC += IPCvals[4] * Aloss;
+      AIPC += IPCvals[BMBR] * Aloss;
       Aloss = 0;
     }
     if(amphibiousAssault){
-      for(int i = 0; i < a.units[6]; i++){
-        if(rollDie()<=atkvals[6]){
-          if(d.units[6] > 0){
-              d.units[6]--;
-              d.units[lossIndex(OoL,11)]++;
+      for(int i = 0; i < a.units[BS] + a.units[WBS]; i++){
+        if(rollDie()<=atkvals[BS]){
+          if(d.units[BS] > 0){
+              d.units[BS]--;
+              d.units[lossIndex(OoL, WBS)]++;
           }
-          else if(d.units[OoL[0]] > 0){
-              d.units[OoL[0]]--;
+          else if(d.units[OoL[INF]] > 0){
+              d.units[OoL[INF]]--;
               d.count--;
-              DIPC += IPCvals[OoL[0]];
+              DIPC += IPCvals[OoL[INF]];
           }
-          else if(d.units[OoL[1]] > 0){
-              d.units[OoL[1]]--;
+          else if(d.units[OoL[ART]] > 0){
+              d.units[OoL[ART]]--;
               d.count--;
-              DIPC += IPCvals[OoL[1]];
+              DIPC += IPCvals[OoL[ART]];
           }
-          else if(d.units[OoL[2]] > 0){
-              d.units[OoL[2]]--;
+          else if(d.units[OoL[TANK]] > 0){
+              d.units[OoL[TANK]]--;
               d.count--;
-              DIPC += IPCvals[OoL[2]];
+              DIPC += IPCvals[OoL[TANK]];
           }
-          else if(d.units[OoL[3]] > 0){
-              d.units[OoL[3]]--;
+          else if(d.units[OoL[FTR]] > 0){
+              d.units[OoL[FTR]]--;
               d.count--;
-              DIPC += IPCvals[OoL[3]];
+              DIPC += IPCvals[OoL[FTR]];
           }
-          else if(d.units[OoL[4]] > 0){
-              d.units[OoL[4]]--;
+          else if(d.units[OoL[BMBR]] > 0){
+              d.units[OoL[BMBR]]--;
               d.count--;
-              DIPC += IPCvals[OoL[4]];
+              DIPC += IPCvals[OoL[BMBR]];
           }
-          else if(d.units[OoL[5]] > 0){
-              d.units[OoL[5]]--;
+          else if(d.units[OoL[AC]] > 0){
+              d.units[OoL[AC]]--;
               d.count--;
-              DIPC += IPCvals[OoL[5]];
+              DIPC += IPCvals[OoL[AC]];
           }
-          else if(d.units[OoL[6]] > 0){
-              d.units[OoL[6]]--;
+          else if(d.units[OoL[BS]] > 0){
+              d.units[OoL[BS]]--;
               d.count--;
-              DIPC += IPCvals[OoL[6]];
+              DIPC += IPCvals[OoL[BS]];
           }
-          else if(d.units[OoL[7]] > 0){
-              d.units[OoL[7]]--;
+          else if(d.units[OoL[CRSR]] > 0){
+              d.units[OoL[CRSR]]--;
               d.count--;
-              DIPC += IPCvals[OoL[7]];
+              DIPC += IPCvals[OoL[CRSR]];
           }
-          else if(d.units[OoL[8]] > 0){
-              d.units[OoL[8]]--;
+          else if(d.units[OoL[DEST]] > 0){
+              d.units[OoL[DEST]]--;
               d.count--;
-              DIPC += IPCvals[OoL[8]];
+              DIPC += IPCvals[OoL[DEST]];
           }
-          else if(d.units[OoL[9]] > 0){
-              d.units[OoL[9]]--;
+          else if(d.units[OoL[SUB]] > 0){
+              d.units[OoL[SUB]]--;
               d.count--;
-              DIPC += IPCvals[OoL[9]];
+              DIPC += IPCvals[OoL[SUB]];
           }
-          else if(d.units[OoL[10]] > 0){
-              d.units[OoL[10]]--;
+          else if(d.units[OoL[TRAN]] > 0){
+              d.units[OoL[TRAN]]--;
               d.count--;
-              DIPC += IPCvals[OoL[10]];
+              DIPC += IPCvals[OoL[TRAN]];
           }
         }
       }
@@ -818,133 +818,133 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         }
 
         for(int i = 0; i < Aloss; i++){
-            if(a.units[6] > 0){
-                a.units[6]--;
-                a.units[lossIndex(OoL,11)]++;
+            if(a.units[BS] > 0){
+                a.units[BS]--;
+                a.units[lossIndex(OoL, WBS)]++;
             }
-            else if(a.units[OoL[0]] > 0){
-                a.units[OoL[0]]--;
+            else if(a.units[OoL[INF]] > 0){
+                a.units[OoL[INF]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[0]];
+                AIPC += IPCvals[OoL[INF]];
             }
-            else if(a.units[OoL[1]] > 0){
-                a.units[OoL[1]]--;
+            else if(a.units[OoL[ART]] > 0){
+                a.units[OoL[ART]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[1]];
+                AIPC += IPCvals[OoL[ART]];
             }
-            else if(a.units[OoL[2]] > 0){
-                a.units[OoL[2]]--;
+            else if(a.units[OoL[TANK]] > 0){
+                a.units[OoL[TANK]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[2]];
+                AIPC += IPCvals[OoL[TANK]];
             }
-            else if(a.units[OoL[3]] > 0){
-                a.units[OoL[3]]--;
+            else if(a.units[OoL[FTR]] > 0){
+                a.units[OoL[FTR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[3]];
+                AIPC += IPCvals[OoL[FTR]];
             }
-            else if(a.units[OoL[4]] > 0){
-                a.units[OoL[4]]--;
+            else if(a.units[OoL[BMBR]] > 0){
+                a.units[OoL[BMBR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[4]];
+                AIPC += IPCvals[OoL[BMBR]];
             }
-            else if(a.units[OoL[5]] > 0){
-                a.units[OoL[5]]--;
+            else if(a.units[OoL[AC]] > 0){
+                a.units[OoL[AC]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[5]];
+                AIPC += IPCvals[OoL[AC]];
             }
-            else if(a.units[OoL[6]] > 0){
-                a.units[OoL[6]]--;
+            else if(a.units[OoL[BS]] > 0){
+                a.units[OoL[BS]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[6]];
+                AIPC += IPCvals[OoL[BS]];
             }
-            else if(a.units[OoL[7]] > 0){
-                a.units[OoL[7]]--;
+            else if(a.units[OoL[CRSR]] > 0){
+                a.units[OoL[CRSR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[7]];
+                AIPC += IPCvals[OoL[CRSR]];
             }
-            else if(a.units[OoL[8]] > 0){
-                a.units[OoL[8]]--;
+            else if(a.units[OoL[DEST]] > 0){
+                a.units[OoL[DEST]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[8]];
+                AIPC += IPCvals[OoL[DEST]];
             }
-            else if(a.units[OoL[9]] > 0){
-                a.units[OoL[9]]--;
+            else if(a.units[OoL[SUB]] > 0){
+                a.units[OoL[SUB]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[9]];
+                AIPC += IPCvals[OoL[SUB]];
             }
-            else if(a.units[OoL[10]] > 0){
-                a.units[OoL[10]]--;
+            else if(a.units[OoL[TRAN]] > 0){
+                a.units[OoL[TRAN]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[10]];
+                AIPC += IPCvals[OoL[TRAN]];
             }
         }
         for(int i = 0; i < Dloss; i++){
-            if(d.units[6] > 0){
-                d.units[6]--;
-                d.units[lossIndex(OoL,11)]++;
+            if(d.units[BS] > 0){
+                d.units[BS]--;
+                d.units[lossIndex(OoL, WBS)]++;
             }
-            else if(d.units[OoL[0]] > 0){
-                d.units[OoL[0]]--;
+            else if(d.units[OoL[INF]] > 0){
+                d.units[OoL[INF]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[0]];
+                DIPC += IPCvals[OoL[INF]];
             }
-            else if(d.units[OoL[1]] > 0){
-                d.units[OoL[1]]--;
+            else if(d.units[OoL[ART]] > 0){
+                d.units[OoL[ART]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[1]];
+                DIPC += IPCvals[OoL[ART]];
             }
-            else if(d.units[OoL[2]] > 0){
-                d.units[OoL[2]]--;
+            else if(d.units[OoL[TANK]] > 0){
+                d.units[OoL[TANK]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[2]];
+                DIPC += IPCvals[OoL[TANK]];
             }
-            else if(d.units[OoL[3]] > 0){
-                d.units[OoL[3]]--;
+            else if(d.units[OoL[FTR]] > 0){
+                d.units[OoL[FTR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[3]];
+                DIPC += IPCvals[OoL[FTR]];
             }
-            else if(d.units[OoL[4]] > 0){
-                d.units[OoL[4]]--;
+            else if(d.units[OoL[BMBR]] > 0){
+                d.units[OoL[BMBR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[4]];
+                DIPC += IPCvals[OoL[BMBR]];
             }
-            else if(d.units[OoL[5]] > 0){
-                d.units[OoL[5]]--;
+            else if(d.units[OoL[AC]] > 0){
+                d.units[OoL[AC]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[5]];
+                DIPC += IPCvals[OoL[AC]];
             }
-            else if(d.units[OoL[6]] > 0){
-                d.units[OoL[6]]--;
+            else if(d.units[OoL[BS]] > 0){
+                d.units[OoL[BS]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[6]];
+                DIPC += IPCvals[OoL[BS]];
             }
-            else if(d.units[OoL[7]] > 0){
-                d.units[OoL[7]]--;
+            else if(d.units[OoL[CRSR]] > 0){
+                d.units[OoL[CRSR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[7]];
+                DIPC += IPCvals[OoL[CRSR]];
             }
-            else if(d.units[OoL[8]] > 0){
-                d.units[OoL[8]]--;
+            else if(d.units[OoL[DEST]] > 0){
+                d.units[OoL[DEST]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[8]];
+                DIPC += IPCvals[OoL[DEST]];
             }
-            else if(d.units[OoL[9]] > 0){
-                d.units[OoL[9]]--;
+            else if(d.units[OoL[SUB]] > 0){
+                d.units[OoL[SUB]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[9]];
+                DIPC += IPCvals[OoL[SUB]];
             }
-            else if(d.units[OoL[10]] > 0){
-                d.units[OoL[10]]--;
+            else if(d.units[OoL[TRAN]] > 0){
+                d.units[OoL[TRAN]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[10]];
+                DIPC += IPCvals[OoL[TRAN]];
             }
         }
 
-        d.units[6]+= d.units[lossIndex(OoL,11)];
-        d.units[lossIndex(OoL,11)] = 0;
+        d.units[BS]+= d.units[lossIndex(OoL, WBS)];
+        d.units[lossIndex(OoL, WBS)] = 0;
 
-        a.units[6]+= d.units[lossIndex(OoL,11)];
-        a.units[lossIndex(OoL,11)] = 0;
+        a.units[BS]+= d.units[lossIndex(OoL, WBS)];
+        a.units[lossIndex(OoL, WBS)] = 0;
         return new SingleTurnResult(a, d, AIPC, DIPC);
   }
   
@@ -1039,7 +1039,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     boolean inMap;
     singleresults.clear();
     for(int n = 0; n < iterations; n++){
-        SingleTurnResult recentResult = simsingle(a,d);
+        SingleTurnResult recentResult = simsinglebat(a,d);
         inMap = false;
         for(SingleTurnResult br:singleresults.keySet()){
             if(br.equals(recentResult)){
