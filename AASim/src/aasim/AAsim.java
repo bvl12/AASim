@@ -560,8 +560,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         while(true){
             for(int i = 0; i < 12; i++){
                 for(int j = 0; j < a.units[i]; j++){
-                    if(rollDie() < atkvals[i])
-                        Dloss++;
+                    if(i == INF && j < a.units[ART]) {//INF get +1 if they're supported by artillery on ATK
+                        if(rollDie() < atkvals[i] + 1)
+                            Dloss++;
+                } else if(rollDie() < atkvals[i])
+                    Dloss++;
                 }
                 for(int j = 0; j < d.units[i]; j++){
                     if(rollDie() < defvals[i])
@@ -807,10 +810,13 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       }
     }
     for(int i = 0; i < 12; i++){
-            for(int j = 0; j < a.units[i]; j++){
-                if(rollDie() < atkvals[i])
+      for(int j = 0; j < a.units[i]; j++){
+            if(i == INF && j < a.units[ART]) {//INF get +1 if they're supported by artillery on ATK
+                if(rollDie() < atkvals[i] + 1)
                     Dloss++;
-            }
+        } else if(rollDie() < atkvals[i])
+            Dloss++;
+        }
             for(int j = 0; j < d.units[i]; j++){
                 if(rollDie() < defvals[i])
                     Aloss++;
