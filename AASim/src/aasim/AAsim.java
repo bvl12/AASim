@@ -3,7 +3,6 @@ package aasim;
 import static java.lang.Math.round;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -498,15 +497,15 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   }//GEN-LAST:event_hasAAGunActionPerformed
 
   private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    ATKtable.changeSelection(0, 1, false, false);
+    DEFtable.changeSelection(0, 1, false, false);
+    isAmphibiousAssault.setSelected(false);
+    hasAAGun.setSelected(false);
+    amphibiousAssault = false;
+    antiAir = false;
     for(int i = 0; i < atkUnits.length - 1; i++){
-      ATKModel.setValueAt(0, i, 1);
-      DEFModel.setValueAt(0, i, 1);
-      ATKtable.changeSelection(0, 1, false, false);
-      DEFtable.changeSelection(0, 1, false, false);
-      isAmphibiousAssault.setSelected(false);
-      hasAAGun.setSelected(false);
-      amphibiousAssault = false;
-      antiAir = false;
+      ATKModel.setValueAt(null, i, 1);
+      DEFModel.setValueAt(null, i, 1);
     }
   }//GEN-LAST:event_resetButtonActionPerformed
 
