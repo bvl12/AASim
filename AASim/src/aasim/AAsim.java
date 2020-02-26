@@ -740,68 +740,13 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       Aloss = 0;
     }
     if(amphibiousAssault){
-      for(int i = 0; i < a.units[BS] + a.units[WBS]; i++){
-        if(rollDie()<=atkvals[BS]){
-          if(d.units[BS] > 0){
-              d.units[BS]--;
-              d.units[lossIndex(OoL, WBS)]++;
-          }
-          else if(d.units[OoL[INF]] > 0){
-              d.units[OoL[INF]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[INF]];
-          }
-          else if(d.units[OoL[ART]] > 0){
-              d.units[OoL[ART]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[ART]];
-          }
-          else if(d.units[OoL[TANK]] > 0){
-              d.units[OoL[TANK]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[TANK]];
-          }
-          else if(d.units[OoL[FTR]] > 0){
-              d.units[OoL[FTR]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[FTR]];
-          }
-          else if(d.units[OoL[BMBR]] > 0){
-              d.units[OoL[BMBR]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[BMBR]];
-          }
-          else if(d.units[OoL[AC]] > 0){
-              d.units[OoL[AC]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[AC]];
-          }
-          else if(d.units[OoL[BS]] > 0){
-              d.units[OoL[BS]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[BS]];
-          }
-          else if(d.units[OoL[CRSR]] > 0){
-              d.units[OoL[CRSR]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[CRSR]];
-          }
-          else if(d.units[OoL[DEST]] > 0){
-              d.units[OoL[DEST]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[DEST]];
-          }
-          else if(d.units[OoL[SUB]] > 0){
-              d.units[OoL[SUB]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[SUB]];
-          }
-          else if(d.units[OoL[TRAN]] > 0){
-              d.units[OoL[TRAN]]--;
-              d.count--;
-              DIPC += IPCvals[OoL[TRAN]];
-          }
-        }
+        for(int i = 0; i < a.units[BS] + a.units[WBS]; i++){
+          if(rollDie() < atkvals[BS])
+              Dloss++;
+      }
+      for(int i = 0; i < a.units[CRSR]; i++){
+          if(rollDie() < atkvals[CRSR])
+              Dloss++;
       }
       //sanitize results by removing sea units because this is a land battle
       for(int i = 5; i < 11; i++){
