@@ -524,6 +524,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int Dloss = 0;
         int AIPC = 0;
         int DIPC = 0;
+        boolean AAdestroyed = false;
         if(antiAir){
             for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
@@ -638,6 +639,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                     d.units[BS]--;
                     d.units[lossIndex(OoL,WBS)]++;
                 }
+                else if(antiAir && !AAdestroyed && d.count == 1){
+                  AAdestroyed = true;
+                  DIPC += AAIPC;
+                }
                 else if(d.units[OoL[INF]] > 0){
                     d.units[OoL[INF]]--;
                     d.count--;
@@ -721,6 +726,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int Dloss = 0;
     int AIPC = 0;
     int DIPC = 0;
+    boolean AAdestroyed = false;
     if(antiAir){
       for(int i = 0; i < a.units[FTR]; i++){
         if(rollDie()==1)
@@ -833,6 +839,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             if(d.units[BS] > 0){
                 d.units[BS]--;
                 d.units[lossIndex(OoL, WBS)]++;
+            }
+            else if(antiAir && !AAdestroyed && d.count == 1){
+              AAdestroyed = true;
+              DIPC += AAIPC;
             }
             else if(d.units[OoL[INF]] > 0){
                 d.units[OoL[INF]]--;
@@ -1090,6 +1100,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private int[] atkvals = {1, 2, 3, 3, 4, 1, 4, 3, 2, 2, 0, 4};
   private int[] defvals = {2, 2, 3, 4, 1, 2, 4, 3, 2, 1, 0, 4};
   private int[] IPCvals = {3, 4, 5, 10, 12, 14, 20, 12, 8, 6, 7, 20};
+  private int AAIPC = 6;
   private int[] defaultOoL = {0, 1, 9, 2, 10, 8, 3, 7, 4, 5, 11};
   private int[] OoL = Arrays.copyOf(defaultOoL, defaultOoL.length);
   private int[] atkUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
