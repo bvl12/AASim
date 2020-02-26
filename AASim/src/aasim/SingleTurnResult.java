@@ -14,6 +14,8 @@ public class SingleTurnResult {
     }
     
     public boolean equals(SingleTurnResult br){
+        if(this.ATKIPC != br.ATKIPC || this.DEFIPC != br.DEFIPC)
+          return false;
         for(int i = 0; i<br.remainingATK.units.length; i++){
           if(this.remainingATK.units[i] != br.remainingATK.units[i])
             return false;

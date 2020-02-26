@@ -14,7 +14,7 @@ public class BattleResult {
     }
     
     public boolean equals(BattleResult br){
-        if(this.winner != br.winner)
+        if(this.winner != br.winner || this.ATKIPC != br.ATKIPC || this.DEFIPC != br.DEFIPC)
             return false;
         for(int i = 0; i<br.remainingunits.units.length; i++){
             if(this.remainingunits.units[i] != br.remainingunits.units[i])
