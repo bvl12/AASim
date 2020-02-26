@@ -489,11 +489,13 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private void isAmphibiousAssaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isAmphibiousAssaultActionPerformed
     amphibiousAssault = isAmphibiousAssault.isSelected();
     sim(itercount);
+    simsingle(itercount);
   }//GEN-LAST:event_isAmphibiousAssaultActionPerformed
 
   private void hasAAGunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasAAGunActionPerformed
     antiAir = hasAAGun.isSelected();
     sim(itercount);
+    simsingle(itercount);
   }//GEN-LAST:event_hasAAGunActionPerformed
 
   private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
