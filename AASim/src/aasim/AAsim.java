@@ -57,7 +57,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     
     try{
       if(e.getSource() == ATKModel){
-        for(int i = 0; i < atkUnits.length - 1; i++){
+        for(int i = 0; i < atkUnits.length; i++){
           if(ATKModel.getValueAt(i, 1) instanceof Integer)
             atkUnits[i] = (int)ATKModel.getValueAt(i, 1);
           else
@@ -66,7 +66,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
           simsingle(itercount);
         }
       } else if(e.getSource() == DEFModel){
-        for(int i = 0; i < defUnits.length - 1; i++){
+        for(int i = 0; i < defUnits.length; i++){
           if(DEFModel.getValueAt(i, 1) instanceof Integer)
             defUnits[i] = (int)DEFModel.getValueAt(i, 1);
           else
@@ -89,7 +89,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     model.setValueAt("CRSR", 7, 0);
     model.setValueAt("DEST", 8, 0);
     model.setValueAt("SUB", 9, 0);
-    model.setValueAt("TRAN", 10, 0);    
+    model.setValueAt("TRAN", 10, 0);  
+    model.setValueAt("WBS", 11, 0);
   }
 
   public boolean hasGroundUnits(int[] units){
@@ -158,9 +159,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
     ATKpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("ATK"));
     ATKpanel.setName("ATKpanel"); // NOI18N
+    ATKpanel.setPreferredSize(new java.awt.Dimension(147, 262));
 
     ATKtable.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
+        {null, null},
         {null, null},
         {null, null},
         {null, null},
@@ -206,21 +209,21 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     ATKpanel.setLayout(ATKpanelLayout);
     ATKpanelLayout.setHorizontalGroup(
       ATKpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ATKpanelLayout.createSequentialGroup()
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(391, 391, 391))
       .addGroup(ATKpanelLayout.createSequentialGroup()
         .addComponent(isAmphibiousAssault)
-        .addGap(0, 0, Short.MAX_VALUE))
+        .addGap(0, 16, Short.MAX_VALUE))
+      .addGroup(ATKpanelLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        .addContainerGap())
     );
     ATKpanelLayout.setVerticalGroup(
       ATKpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ATKpanelLayout.createSequentialGroup()
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(isAmphibiousAssault)
-        .addGap(23, 23, 23))
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     DEFpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DEF"));
@@ -228,6 +231,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
     DEFtable.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
+        {null, null},
         {null, null},
         {null, null},
         {null, null},
@@ -278,16 +282,17 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             .addContainerGap()
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
           .addGroup(DEFpanelLayout.createSequentialGroup()
-            .addGap(36, 36, 36)
+            .addGap(33, 33, 33)
             .addComponent(hasAAGun)))
-        .addContainerGap(15, Short.MAX_VALUE))
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     DEFpanelLayout.setVerticalGroup(
       DEFpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(DEFpanelLayout.createSequentialGroup()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(hasAAGun))
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(hasAAGun)
+        .addContainerGap())
     );
 
     ResultsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Results"));
@@ -317,6 +322,19 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       }
     });
     jScrollPane3.setViewportView(ResultsTable);
+    if (ResultsTable.getColumnModel().getColumnCount() > 0) {
+      ResultsTable.getColumnModel().getColumn(1).setHeaderValue("INF");
+      ResultsTable.getColumnModel().getColumn(2).setHeaderValue("ART");
+      ResultsTable.getColumnModel().getColumn(3).setHeaderValue("TANK");
+      ResultsTable.getColumnModel().getColumn(4).setHeaderValue("FTR");
+      ResultsTable.getColumnModel().getColumn(5).setHeaderValue("BMBR");
+      ResultsTable.getColumnModel().getColumn(6).setHeaderValue("AC");
+      ResultsTable.getColumnModel().getColumn(7).setHeaderValue("BS");
+      ResultsTable.getColumnModel().getColumn(8).setHeaderValue("CRSR");
+      ResultsTable.getColumnModel().getColumn(9).setHeaderValue("DEST");
+      ResultsTable.getColumnModel().getColumn(10).setHeaderValue("SUB");
+      ResultsTable.getColumnModel().getColumn(11).setHeaderValue("TRAN");
+    }
 
     jTabbedPane1.addTab("Overall Results", jScrollPane3);
 
@@ -360,7 +378,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     ResultsPanelLayout.setVerticalGroup(
       ResultsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(ResultsPanelLayout.createSequentialGroup()
-        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
         .addContainerGap())
     );
 
@@ -395,13 +413,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     SettingsPanelLayout.setVerticalGroup(
       SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(SettingsPanelLayout.createSequentialGroup()
-        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(SettingsPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(resetButton)
-            .addGap(0, 67, Short.MAX_VALUE))
-          .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-        .addContainerGap())
+        .addContainerGap()
+        .addComponent(resetButton)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+      .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
     );
 
     jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Summary"));
@@ -443,10 +458,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     );
     jPanel1Layout.setVerticalGroup(
       jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel1Layout.createSequentialGroup()
-        .addContainerGap()
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addContainerGap())
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -458,10 +473,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(ResultsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
           .addGroup(layout.createSequentialGroup()
-            .addComponent(ATKpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(DEFpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(ATKpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(DEFpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
               .addComponent(SettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
               .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -472,25 +487,19 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(ATKpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addGroup(layout.createSequentialGroup()
-            .addComponent(SettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(SettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addComponent(DEFpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(DEFpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+          .addComponent(ATKpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(ResultsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addContainerGap())
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
-
-  private void isAmphibiousAssaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isAmphibiousAssaultActionPerformed
-    amphibiousAssault = isAmphibiousAssault.isSelected();
-    sim(itercount);
-    simsingle(itercount);
-  }//GEN-LAST:event_isAmphibiousAssaultActionPerformed
 
   private void hasAAGunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasAAGunActionPerformed
     antiAir = hasAAGun.isSelected();
@@ -510,6 +519,12 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       DEFModel.setValueAt(null, i, 1);
     }
   }//GEN-LAST:event_resetButtonActionPerformed
+
+  private void isAmphibiousAssaultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isAmphibiousAssaultActionPerformed
+    amphibiousAssault = isAmphibiousAssault.isSelected();
+    sim(itercount);
+    simsingle(itercount);
+  }//GEN-LAST:event_isAmphibiousAssaultActionPerformed
 
   public static void main(String[] args) {
         AAsim frame = new AAsim();
