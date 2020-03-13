@@ -28,6 +28,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private static final int SUB = 9;
   private static final int TRAN = 10;
   private static final int WBS = 11;
+  private static final int AAG = 12;
 
   public AAsim() {
     initComponents();
@@ -62,8 +63,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             atkUnits[i] = (int)ATKModel.getValueAt(i, 1);
           else
             atkUnits[i] = 0;
-          sim(itercount);
-          simsingle(itercount);
         }
       } else if(e.getSource() == DEFModel){
         for(int i = 0; i < defUnits.length; i++){
@@ -71,10 +70,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             defUnits[i] = (int)DEFModel.getValueAt(i, 1);
           else
             defUnits[i] = 0;
-          sim(itercount);
-          simsingle(itercount);
         }
       }
+      sim(itercount);
+      simsingle(itercount);
     } catch(NumberFormatException ex){}
   }
   
@@ -91,6 +90,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     model.setValueAt("SUB", 9, 0);
     model.setValueAt("TRAN", 10, 0);  
     model.setValueAt("WBS", 11, 0);
+    try{
+      model.setValueAt("AAG", 12, 0);
+    } catch(Exception e){
+      
+    }
   }
 
   public boolean hasGroundUnits(int[] units){
@@ -112,7 +116,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     DEFpanel = new javax.swing.JPanel();
     jScrollPane2 = new javax.swing.JScrollPane();
     DEFtable = new javax.swing.JTable();
-    hasAAGun = new javax.swing.JCheckBox();
     ResultsPanel = new javax.swing.JPanel();
     jTabbedPane1 = new javax.swing.JTabbedPane();
     jScrollPane3 = new javax.swing.JScrollPane();
@@ -242,6 +245,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         {null, null},
         {null, null},
         {null, null},
+        {null, null},
         {null, null}
       },
       new String [] {
@@ -265,33 +269,19 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     });
     jScrollPane2.setViewportView(DEFtable);
 
-    hasAAGun.setText("AA Gun");
-    hasAAGun.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        hasAAGunActionPerformed(evt);
-      }
-    });
-
     javax.swing.GroupLayout DEFpanelLayout = new javax.swing.GroupLayout(DEFpanel);
     DEFpanel.setLayout(DEFpanelLayout);
     DEFpanelLayout.setHorizontalGroup(
       DEFpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(DEFpanelLayout.createSequentialGroup()
-        .addGroup(DEFpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(DEFpanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addGroup(DEFpanelLayout.createSequentialGroup()
-            .addGap(33, 33, 33)
-            .addComponent(hasAAGun)))
+        .addContainerGap()
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     DEFpanelLayout.setVerticalGroup(
       DEFpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(DEFpanelLayout.createSequentialGroup()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(hasAAGun)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addContainerGap())
     );
 
@@ -303,14 +293,14 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
       },
       new String [] {
-        "Winner", "INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "%", "C %", "A IPC", "D IPC"
+        "Winner", "%", "C %", "A IPC", "D IPC"
       }
     ) {
       Class[] types = new Class [] {
-        java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
+        java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class
       };
       boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        false, false, false, false, false
       };
 
       public Class getColumnClass(int columnIndex) {
@@ -322,19 +312,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       }
     });
     jScrollPane3.setViewportView(ResultsTable);
-    if (ResultsTable.getColumnModel().getColumnCount() > 0) {
-      ResultsTable.getColumnModel().getColumn(1).setHeaderValue("INF");
-      ResultsTable.getColumnModel().getColumn(2).setHeaderValue("ART");
-      ResultsTable.getColumnModel().getColumn(3).setHeaderValue("TANK");
-      ResultsTable.getColumnModel().getColumn(4).setHeaderValue("FTR");
-      ResultsTable.getColumnModel().getColumn(5).setHeaderValue("BMBR");
-      ResultsTable.getColumnModel().getColumn(6).setHeaderValue("AC");
-      ResultsTable.getColumnModel().getColumn(7).setHeaderValue("BS");
-      ResultsTable.getColumnModel().getColumn(8).setHeaderValue("CRSR");
-      ResultsTable.getColumnModel().getColumn(9).setHeaderValue("DEST");
-      ResultsTable.getColumnModel().getColumn(10).setHeaderValue("SUB");
-      ResultsTable.getColumnModel().getColumn(11).setHeaderValue("TRAN");
-    }
 
     jTabbedPane1.addTab("Overall Results", jScrollPane3);
 
@@ -501,22 +478,18 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-  private void hasAAGunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasAAGunActionPerformed
-    antiAir = hasAAGun.isSelected();
-    sim(itercount);
-    simsingle(itercount);
-  }//GEN-LAST:event_hasAAGunActionPerformed
-
   private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
     ATKtable.changeSelection(0, 1, false, false);
     DEFtable.changeSelection(0, 1, false, false);
     isAmphibiousAssault.setSelected(false);
-    hasAAGun.setSelected(false);
     amphibiousAssault = false;
-    antiAir = false;
-    for(int i = 0; i < atkUnits.length - 1; i++){
+    for(int i = 0; i < defUnits.length; i++){
+      try{
       ATKModel.setValueAt(null, i, 1);
-      DEFModel.setValueAt(null, i, 1);
+      }catch(Exception e){}
+      try{
+        DEFModel.setValueAt(null, i, 1);
+      }catch(Exception e){}
     }
   }//GEN-LAST:event_resetButtonActionPerformed
 
@@ -540,8 +513,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int Dloss = 0;
         int AIPC = 0;
         int DIPC = 0;
-        if(antiAir){
-            d.units[d.units.length-1] = 1; //Add AA gun to unit counts
+        if(d.units[AAG] > 0){
             for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
                     Aloss++;
@@ -655,8 +627,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                     d.units[BS]--;
                     d.units[WBS]++;
                 }
-                else if(d.units[d.units.length-1] == 1 && d.count == 1){
-                  d.units[d.units.length-1] = 0;
+                else if(d.units[AAG] > 0 && d.count == 1){
+                  d.units[AAG]--;
                   DIPC += AAIPC;
                 }
                 else if(d.units[OoL[INF]] > 0){
@@ -739,7 +711,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int AIPC = 0;
     int DIPC = 0;
     boolean AAdestroyed = false;
-    if(antiAir){
+    if(d.units[AAG] > 0){
       for(int i = 0; i < a.units[FTR]; i++){
         if(rollDie()==1)
           Aloss++;
@@ -852,8 +824,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                 d.units[BS]--;
                 d.units[WBS]++;
             }
-            else if(antiAir && !AAdestroyed && d.count == 1){
-              AAdestroyed = true;
+            else if(d.units[AAG] > 0 && d.count == 1){
+              d.units[AAG]--;
               DIPC += AAIPC;
             }
             else if(d.units[OoL[INF]] > 0){
@@ -1139,7 +1111,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private javax.swing.JPanel SettingsPanel;
   private javax.swing.JTable SingleTOATable;
   private javax.swing.JTable SummaryTable;
-  private javax.swing.JCheckBox hasAAGun;
   private javax.swing.JCheckBox isAmphibiousAssault;
   private javax.swing.JPanel jPanel1;
   private javax.swing.JScrollPane jScrollPane1;
@@ -1161,7 +1132,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private DefaultTableModel SummaryModel;
   private DefaultTableModel SingleTOAModel;
   private boolean amphibiousAssault = false;
-  private boolean antiAir = false;
   private int itercount = 10000;
   private int[] atkvals = {1, 2, 3, 3, 4, 1, 4, 3, 2, 2, 0, 4};
   private String[] unitnames = {"INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "WBS", "AAG"};
@@ -1171,7 +1141,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private int[] defaultOoL = {0, 1, 9, 2, 10, 8, 3, 7, 4, 5, 11};
   private int[] OoL = Arrays.copyOf(defaultOoL, defaultOoL.length);
   private int[] atkUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-  private int[] defUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  private int[] defUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   private HashMap<BattleResult, Integer> results = new HashMap<BattleResult, Integer>();
   private HashMap<SingleTurnResult, Integer> singleresults = new HashMap<SingleTurnResult, Integer>();
   Random rand = new Random();

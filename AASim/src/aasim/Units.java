@@ -9,8 +9,8 @@ public class Units {
     public Units(int[] units){
         this.count = 0;
         this.units = Arrays.copyOf(units, units.length + 1);
-        for(int i:units){
-            this.count += i;
+        for(int i = 0; i < units.length-1; i++){
+            this.count += units[i];
         }
     }
 }
