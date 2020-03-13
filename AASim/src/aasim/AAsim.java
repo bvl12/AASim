@@ -525,8 +525,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int Dloss = 0;
         int AIPC = 0;
         int DIPC = 0;
-        boolean AAdestroyed = false;
         if(antiAir){
+            d.units[d.units.length-1] = 1; //Add AA gun to unit counts
             for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
                     Aloss++;
@@ -577,7 +577,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             for(int i = 0; i < Aloss; i++){
                 if(a.units[BS] > 0){
                     a.units[BS]--;
-                    a.units[lossIndex(OoL, WBS)]++;
+                    a.units[WBS]++;
                 }
                 else if(a.units[OoL[INF]] > 0){
                     a.units[OoL[INF]]--;
@@ -638,10 +638,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             for(int i = 0; i < Dloss; i++){
                 if(d.units[BS] > 0){
                     d.units[BS]--;
-                    d.units[lossIndex(OoL,WBS)]++;
+                    d.units[WBS]++;
                 }
-                else if(antiAir && !AAdestroyed && d.count == 1){
-                  AAdestroyed = true;
+                else if(d.units[d.units.length-1] == 1 && d.count == 1){
+                  d.units[d.units.length-1] = 0;
                   DIPC += AAIPC;
                 }
                 else if(d.units[OoL[INF]] > 0){
@@ -703,15 +703,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             Aloss = 0;
             Dloss = 0;
             if(a.count <= 0){
-                d.units[BS]+= d.units[lossIndex(OoL, WBS)];
-                d.units[lossIndex(OoL, WBS)] = 0;
                 if(d.count <= 0)
                     return new BattleResult(-1,d, AIPC, DIPC);
                 return new BattleResult(0, d, AIPC, DIPC);
             }
             if(d.count <= 0){
-                a.units[BS]+= d.units[lossIndex(OoL, WBS)];
-                a.units[lossIndex(OoL, WBS)] = 0;
                 if(a.count <= 0)
                     return new BattleResult(-1,d, AIPC, DIPC);
                 return new BattleResult(1, a, AIPC, DIPC);
@@ -778,7 +774,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         for(int i = 0; i < Aloss; i++){
             if(a.units[BS] > 0){
                 a.units[BS]--;
-                a.units[lossIndex(OoL, WBS)]++;
+                a.units[WBS]++;
             }
             else if(a.units[OoL[INF]] > 0){
                 a.units[OoL[INF]]--;
@@ -839,7 +835,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         for(int i = 0; i < Dloss; i++){
             if(d.units[BS] > 0){
                 d.units[BS]--;
-                d.units[lossIndex(OoL, WBS)]++;
+                d.units[WBS]++;
             }
             else if(antiAir && !AAdestroyed && d.count == 1){
               AAdestroyed = true;
@@ -902,11 +898,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             }
         }
 
-        d.units[BS]+= d.units[lossIndex(OoL, WBS)];
-        d.units[lossIndex(OoL, WBS)] = 0;
+        d.units[BS]+= d.units[WBS];
+        d.units[WBS] = 0;
 
-        a.units[BS]+= d.units[lossIndex(OoL, WBS)];
-        a.units[lossIndex(OoL, WBS)] = 0;
+        a.units[BS]+= d.units[WBS];
+        a.units[WBS] = 0;
         return new SingleTurnResult(a, d, AIPC, DIPC);
   }
   
@@ -953,6 +949,68 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int AIPCcost = 0;
     int DIPCcost = 0;
     BattleResult[] keys = results.keySet().toArray(br);
+    LinkedList<String> columnNames = new LinkedList<String>();
+    columnNames.add("Winner");
+    
+    
+    
+    for(int i = 0; i < unitnames.length; i++){
+      for(BattleResult thisBR : keys){
+        if(thisBR.remainingunits.units[i] != 0 && columnNames.indexOf(unitnames[i]) == -1){
+          columnNames.add(unitnames[i]);
+        }
+      }
+    }
+    
+    columnNames.add("%");
+    columnNames.add("C %");
+    columnNames.add("A IPC");
+    columnNames.add("D IPC");
+    
+    int colcount = columnNames.size();
+    String[] columnNamesArray = new String[colcount];
+    columnNames.toArray(columnNamesArray);
+    
+    boolean[] columnEditability = new boolean[colcount];
+    Arrays.fill(columnEditability, false);
+    
+    Class[] columnTypes = new Class[colcount];
+    Arrays.fill(columnTypes, java.lang.Integer.class);
+    columnTypes[0] = java.lang.String.class; // first column will be a string (ATK, DEF, DRAW)
+    columnTypes[columnNames.size()-3] = java.lang.Float.class; // this column will be avg IPC loss
+    columnTypes[columnNames.size()-4] = java.lang.Float.class; // this column will be avg IPC loss
+    
+    int[] columnIndices = new int[colcount-5];
+    for(int i = 0; i < colcount-5; i++){
+      for(int j = 0; j < unitnames.length; j++){
+        if(columnNamesArray[i+1].equals(unitnames[j])){
+          columnIndices[i] = j;
+          break;
+        }
+      }
+    }
+    
+    //SET UP NEW RESULTS TABLE
+    ResultsTable.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+
+      },
+      columnNamesArray
+    ) {
+      Class[] types = columnTypes;
+      boolean[] canEdit = columnEditability;
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    ResultsModel = (DefaultTableModel)ResultsTable.getModel();
+
+  //POPULATE TABLE
     ResultsModel.setRowCount(results.size());
     float cumulative_pct = 0;
     for(int i = 0; i < results.size(); i++){
@@ -977,14 +1035,16 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                 ResultsModel.setValueAt("DRAW", i, 0);
                 break;
         }
-        for(int j = 0; j < 11; j++)
-            ResultsModel.setValueAt(keys[i].remainingunits.units[j], i, j+1);
+        
+        for(int j = 0; j < columnIndices.length; j++){
+          ResultsModel.setValueAt(keys[i].remainingunits.units[columnIndices[j]], i, j+1);
+        }
 
-        ResultsModel.setValueAt((float)round(results.get(keys[i])*1000/iterations)/10,i,12);
+        ResultsModel.setValueAt((float)round(results.get(keys[i])*1000/iterations)/10,i,colcount-4);
         cumulative_pct += (float)round(results.get(keys[i])*1000/iterations)/10;
-        ResultsModel.setValueAt(cumulative_pct,i,13);
-        ResultsModel.setValueAt(keys[i].ATKIPC,i,14);
-        ResultsModel.setValueAt(keys[i].DEFIPC,i,15);
+        ResultsModel.setValueAt(cumulative_pct,i,colcount-3);
+        ResultsModel.setValueAt(keys[i].ATKIPC,i,colcount-2);
+        ResultsModel.setValueAt(keys[i].DEFIPC,i,colcount-1);
     }
     SummaryModel.setValueAt(round((ATKwin * 100 / iterations)), 0, 1);
     SummaryModel.setValueAt(round((DEFwin * 100 / iterations)), 1, 1);
@@ -1018,20 +1078,10 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
     singleresults = sortMap(singleresults);
 
-    int ATKwin = 0;
-    int DEFwin = 0;
-    int takenWground = 0;
-    int heldWground = 0;
-    int AIPCcost = 0;
-    int DIPCcost = 0;
     SingleTurnResult[] keys = singleresults.keySet().toArray(br);
     SingleTOAModel.setRowCount(singleresults.size());
     float cumulative_pct = 0;
     for(int i = 0; i < singleresults.size(); i++){
-        DIPCcost += singleresults.get(keys[i]) * keys[i].DEFIPC;
-        AIPCcost += singleresults.get(keys[i]) * keys[i].ATKIPC;
-        
-
         SingleTOAModel.setValueAt((float)round(singleresults.get(keys[i])*1000/iterations)/10,i,0);
         cumulative_pct += (float)round(singleresults.get(keys[i])*1000/iterations)/10;
         SingleTOAModel.setValueAt(cumulative_pct,i,1);
@@ -1099,6 +1149,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private boolean antiAir = false;
   private int itercount = 10000;
   private int[] atkvals = {1, 2, 3, 3, 4, 1, 4, 3, 2, 2, 0, 4};
+  private String[] unitnames = {"INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "WBS", "AAG"};
   private int[] defvals = {2, 2, 3, 4, 1, 2, 4, 3, 2, 1, 0, 4};
   private int[] IPCvals = {3, 4, 5, 10, 12, 14, 20, 12, 8, 6, 7, 20};
   private int AAIPC = 6;
