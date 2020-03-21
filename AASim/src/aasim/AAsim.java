@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
-import javax.swing.DropMode;
 import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 
@@ -41,9 +40,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     ATKModel.addTableModelListener(this);
     DEFModel.addTableModelListener(this);
     ResultsModel.addTableModelListener(this);
-
-    OoLSetter.setDragEnabled(true);
-    OoLSetter.setDropMode(DropMode.INSERT);
     
     SummaryModel.setValueAt("ATK", 0, 0);
     SummaryModel.setValueAt("DEF", 1, 0);
@@ -124,8 +120,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     SingleTOATable = new javax.swing.JTable();
     SettingsPanel = new javax.swing.JPanel();
     resetButton = new javax.swing.JButton();
-    jScrollPane7 = new javax.swing.JScrollPane();
-    OoLSetter = new javax.swing.JList<>();
+    fireAAgunCheckbox = new javax.swing.JCheckBox();
     jPanel1 = new javax.swing.JPanel();
     jScrollPane4 = new javax.swing.JScrollPane();
     SummaryTable = new javax.swing.JTable();
@@ -158,7 +153,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setTitle("AA Battle Simulator");
-    setPreferredSize(new java.awt.Dimension(765, 670));
 
     ATKpanel.setBorder(javax.swing.BorderFactory.createTitledBorder("ATK"));
     ATKpanel.setName("ATKpanel"); // NOI18N
@@ -368,13 +362,13 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       }
     });
 
-    OoLSetter.setModel(new javax.swing.AbstractListModel<String>() {
-      String[] strings = { "INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN" };
-      public int getSize() { return strings.length; }
-      public String getElementAt(int i) { return strings[i]; }
+    fireAAgunCheckbox.setSelected(true);
+    fireAAgunCheckbox.setText("Fire AA Gun");
+    fireAAgunCheckbox.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        fireAAgunCheckboxActionPerformed(evt);
+      }
     });
-    OoLSetter.setToolTipText("");
-    jScrollPane7.setViewportView(OoLSetter);
 
     javax.swing.GroupLayout SettingsPanelLayout = new javax.swing.GroupLayout(SettingsPanel);
     SettingsPanel.setLayout(SettingsPanelLayout);
@@ -382,18 +376,19 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
       SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(SettingsPanelLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(resetButton)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap())
+        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(resetButton)
+          .addComponent(fireAAgunCheckbox))
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     SettingsPanelLayout.setVerticalGroup(
       SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(SettingsPanelLayout.createSequentialGroup()
         .addContainerGap()
         .addComponent(resetButton)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(fireAAgunCheckbox)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-      .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
     );
 
     jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Summary"));
@@ -499,6 +494,12 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     simsingle(itercount);
   }//GEN-LAST:event_isAmphibiousAssaultActionPerformed
 
+  private void fireAAgunCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fireAAgunCheckboxActionPerformed
+    fireAAgun = fireAAgunCheckbox.isSelected();
+    sim(itercount);
+    simsingle(itercount);
+  }//GEN-LAST:event_fireAAgunCheckboxActionPerformed
+
   public static void main(String[] args) {
         AAsim frame = new AAsim();
         frame.setSize(765,575);
@@ -513,7 +514,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int Dloss = 0;
         int AIPC = 0;
         int DIPC = 0;
-        if(d.units[AAG] > 0){
+        if(d.units[AAG] > 0 && fireAAgun){
             for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
                     Aloss++;
@@ -566,60 +567,60 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                     a.units[BS]--;
                     a.units[WBS]++;
                 }
-                else if(a.units[OoL[INF]] > 0){
-                    a.units[OoL[INF]]--;
+                else if(a.units[attackOoL[INF]] > 0){
+                    a.units[attackOoL[INF]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[INF]];
+                    AIPC += IPCvals[attackOoL[INF]];
                 }
-                else if(a.units[OoL[ART]] > 0){
-                    a.units[OoL[ART]]--;
+                else if(a.units[attackOoL[ART]] > 0){
+                    a.units[attackOoL[ART]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[ART]];
+                    AIPC += IPCvals[attackOoL[ART]];
                 }
-                else if(a.units[OoL[TANK]] > 0){
-                    a.units[OoL[TANK]]--;
+                else if(a.units[attackOoL[TANK]] > 0){
+                    a.units[attackOoL[TANK]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[TANK]];
+                    AIPC += IPCvals[attackOoL[TANK]];
                 }
-                else if(a.units[OoL[FTR]] > 0){
-                    a.units[OoL[FTR]]--;
+                else if(a.units[attackOoL[FTR]] > 0){
+                    a.units[attackOoL[FTR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[FTR]];
+                    AIPC += IPCvals[attackOoL[FTR]];
                 }
-                else if(a.units[OoL[BMBR]] > 0){
-                    a.units[OoL[BMBR]]--;
+                else if(a.units[attackOoL[BMBR]] > 0){
+                    a.units[attackOoL[BMBR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[BMBR]];
+                    AIPC += IPCvals[attackOoL[BMBR]];
                 }
-                else if(a.units[OoL[AC]] > 0){
-                    a.units[OoL[AC]]--;
+                else if(a.units[attackOoL[AC]] > 0){
+                    a.units[attackOoL[AC]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[AC]];
+                    AIPC += IPCvals[attackOoL[AC]];
                 }
-                else if(a.units[OoL[BS]] > 0){
-                    a.units[OoL[BS]]--;
+                else if(a.units[attackOoL[BS]] > 0){
+                    a.units[attackOoL[BS]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[BS]];
+                    AIPC += IPCvals[attackOoL[BS]];
                 }
-                else if(a.units[OoL[CRSR]] > 0){
-                    a.units[OoL[CRSR]]--;
+                else if(a.units[attackOoL[CRSR]] > 0){
+                    a.units[attackOoL[CRSR]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[CRSR]];
+                    AIPC += IPCvals[attackOoL[CRSR]];
                 }
-                else if(a.units[OoL[DEST]] > 0){
-                    a.units[OoL[DEST]]--;
+                else if(a.units[attackOoL[DEST]] > 0){
+                    a.units[attackOoL[DEST]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[DEST]];
+                    AIPC += IPCvals[attackOoL[DEST]];
                 }
-                else if(a.units[OoL[SUB]] > 0){
-                    a.units[OoL[SUB]]--;
+                else if(a.units[attackOoL[SUB]] > 0){
+                    a.units[attackOoL[SUB]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[SUB]];
+                    AIPC += IPCvals[attackOoL[SUB]];
                 }
-                else if(a.units[OoL[TRAN]] > 0){
-                    a.units[OoL[TRAN]]--;
+                else if(a.units[attackOoL[TRAN]] > 0){
+                    a.units[attackOoL[TRAN]]--;
                     a.count--;
-                    AIPC += IPCvals[OoL[TRAN]];
+                    AIPC += IPCvals[attackOoL[TRAN]];
                 }
             }
             for(int i = 0; i < Dloss; i++){
@@ -631,60 +632,60 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
                   d.units[AAG]--;
                   DIPC += AAIPC;
                 }
-                else if(d.units[OoL[INF]] > 0){
-                    d.units[OoL[INF]]--;
+                else if(d.units[defenseOoL[INF]] > 0){
+                    d.units[defenseOoL[INF]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[INF]];
+                    DIPC += IPCvals[defenseOoL[INF]];
                 }
-                else if(d.units[OoL[ART]] > 0){
-                    d.units[OoL[ART]]--;
+                else if(d.units[defenseOoL[ART]] > 0){
+                    d.units[defenseOoL[ART]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[ART]];
+                    DIPC += IPCvals[defenseOoL[ART]];
                 }
-                else if(d.units[OoL[TANK]] > 0){
-                    d.units[OoL[TANK]]--;
+                else if(d.units[defenseOoL[TANK]] > 0){
+                    d.units[defenseOoL[TANK]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[TANK]];
+                    DIPC += IPCvals[defenseOoL[TANK]];
                 }
-                else if(d.units[OoL[FTR]] > 0){
-                    d.units[OoL[FTR]]--;
+                else if(d.units[defenseOoL[FTR]] > 0){
+                    d.units[defenseOoL[FTR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[FTR]];
+                    DIPC += IPCvals[defenseOoL[FTR]];
                 }
-                else if(d.units[OoL[BMBR]] > 0){
-                    d.units[OoL[BMBR]]--;
+                else if(d.units[defenseOoL[BMBR]] > 0){
+                    d.units[defenseOoL[BMBR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[BMBR]];
+                    DIPC += IPCvals[defenseOoL[BMBR]];
                 }
-                else if(d.units[OoL[AC]] > 0){
-                    d.units[OoL[AC]]--;
+                else if(d.units[defenseOoL[AC]] > 0){
+                    d.units[defenseOoL[AC]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[AC]];
+                    DIPC += IPCvals[defenseOoL[AC]];
                 }
-                else if(d.units[OoL[BS]] > 0){
-                    d.units[OoL[BS]]--;
+                else if(d.units[defenseOoL[BS]] > 0){
+                    d.units[defenseOoL[BS]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[BS]];
+                    DIPC += IPCvals[defenseOoL[BS]];
                 }
-                else if(d.units[OoL[CRSR]] > 0){
-                    d.units[OoL[CRSR]]--;
+                else if(d.units[defenseOoL[CRSR]] > 0){
+                    d.units[defenseOoL[CRSR]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[CRSR]];
+                    DIPC += IPCvals[defenseOoL[CRSR]];
                 }
-                else if(d.units[OoL[DEST]] > 0){
-                    d.units[OoL[DEST]]--;
+                else if(d.units[defenseOoL[DEST]] > 0){
+                    d.units[defenseOoL[DEST]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[DEST]];
+                    DIPC += IPCvals[defenseOoL[DEST]];
                 }
-                else if(d.units[OoL[SUB]] > 0){
-                    d.units[OoL[SUB]]--;
+                else if(d.units[defenseOoL[SUB]] > 0){
+                    d.units[defenseOoL[SUB]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[SUB]];
+                    DIPC += IPCvals[defenseOoL[SUB]];
                 }
-                else if(d.units[OoL[TRAN]] > 0){
-                    d.units[OoL[TRAN]]--;
+                else if(d.units[defenseOoL[TRAN]] > 0){
+                    d.units[defenseOoL[TRAN]]--;
                     d.count--;
-                    DIPC += IPCvals[OoL[TRAN]];
+                    DIPC += IPCvals[defenseOoL[TRAN]];
                 }
             }
             Aloss = 0;
@@ -711,7 +712,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int AIPC = 0;
     int DIPC = 0;
     boolean AAdestroyed = false;
-    if(d.units[AAG] > 0){
+    if(d.units[AAG] > 0 && fireAAgun){
       for(int i = 0; i < a.units[FTR]; i++){
         if(rollDie()==1)
           Aloss++;
@@ -758,65 +759,65 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             }
         }
 
-        for(int i = 0; i < Aloss; i++){
+    for(int i = 0; i < Aloss; i++){
             if(a.units[BS] > 0){
                 a.units[BS]--;
                 a.units[WBS]++;
             }
-            else if(a.units[OoL[INF]] > 0){
-                a.units[OoL[INF]]--;
+            else if(a.units[attackOoL[INF]] > 0){
+                a.units[attackOoL[INF]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[INF]];
+                AIPC += IPCvals[attackOoL[INF]];
             }
-            else if(a.units[OoL[ART]] > 0){
-                a.units[OoL[ART]]--;
+            else if(a.units[attackOoL[ART]] > 0){
+                a.units[attackOoL[ART]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[ART]];
+                AIPC += IPCvals[attackOoL[ART]];
             }
-            else if(a.units[OoL[TANK]] > 0){
-                a.units[OoL[TANK]]--;
+            else if(a.units[attackOoL[TANK]] > 0){
+                a.units[attackOoL[TANK]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[TANK]];
+                AIPC += IPCvals[attackOoL[TANK]];
             }
-            else if(a.units[OoL[FTR]] > 0){
-                a.units[OoL[FTR]]--;
+            else if(a.units[attackOoL[FTR]] > 0){
+                a.units[attackOoL[FTR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[FTR]];
+                AIPC += IPCvals[attackOoL[FTR]];
             }
-            else if(a.units[OoL[BMBR]] > 0){
-                a.units[OoL[BMBR]]--;
+            else if(a.units[attackOoL[BMBR]] > 0){
+                a.units[attackOoL[BMBR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[BMBR]];
+                AIPC += IPCvals[attackOoL[BMBR]];
             }
-            else if(a.units[OoL[AC]] > 0){
-                a.units[OoL[AC]]--;
+            else if(a.units[attackOoL[AC]] > 0){
+                a.units[attackOoL[AC]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[AC]];
+                AIPC += IPCvals[attackOoL[AC]];
             }
-            else if(a.units[OoL[BS]] > 0){
-                a.units[OoL[BS]]--;
+            else if(a.units[attackOoL[BS]] > 0){
+                a.units[attackOoL[BS]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[BS]];
+                AIPC += IPCvals[attackOoL[BS]];
             }
-            else if(a.units[OoL[CRSR]] > 0){
-                a.units[OoL[CRSR]]--;
+            else if(a.units[attackOoL[CRSR]] > 0){
+                a.units[attackOoL[CRSR]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[CRSR]];
+                AIPC += IPCvals[attackOoL[CRSR]];
             }
-            else if(a.units[OoL[DEST]] > 0){
-                a.units[OoL[DEST]]--;
+            else if(a.units[attackOoL[DEST]] > 0){
+                a.units[attackOoL[DEST]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[DEST]];
+                AIPC += IPCvals[attackOoL[DEST]];
             }
-            else if(a.units[OoL[SUB]] > 0){
-                a.units[OoL[SUB]]--;
+            else if(a.units[attackOoL[SUB]] > 0){
+                a.units[attackOoL[SUB]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[SUB]];
+                AIPC += IPCvals[attackOoL[SUB]];
             }
-            else if(a.units[OoL[TRAN]] > 0){
-                a.units[OoL[TRAN]]--;
+            else if(a.units[attackOoL[TRAN]] > 0){
+                a.units[attackOoL[TRAN]]--;
                 a.count--;
-                AIPC += IPCvals[OoL[TRAN]];
+                AIPC += IPCvals[attackOoL[TRAN]];
             }
         }
         for(int i = 0; i < Dloss; i++){
@@ -828,60 +829,60 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
               d.units[AAG]--;
               DIPC += AAIPC;
             }
-            else if(d.units[OoL[INF]] > 0){
-                d.units[OoL[INF]]--;
+            else if(d.units[defenseOoL[INF]] > 0){
+                d.units[defenseOoL[INF]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[INF]];
+                DIPC += IPCvals[defenseOoL[INF]];
             }
-            else if(d.units[OoL[ART]] > 0){
-                d.units[OoL[ART]]--;
+            else if(d.units[defenseOoL[ART]] > 0){
+                d.units[defenseOoL[ART]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[ART]];
+                DIPC += IPCvals[defenseOoL[ART]];
             }
-            else if(d.units[OoL[TANK]] > 0){
-                d.units[OoL[TANK]]--;
+            else if(d.units[defenseOoL[TANK]] > 0){
+                d.units[defenseOoL[TANK]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[TANK]];
+                DIPC += IPCvals[defenseOoL[TANK]];
             }
-            else if(d.units[OoL[FTR]] > 0){
-                d.units[OoL[FTR]]--;
+            else if(d.units[defenseOoL[FTR]] > 0){
+                d.units[defenseOoL[FTR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[FTR]];
+                DIPC += IPCvals[defenseOoL[FTR]];
             }
-            else if(d.units[OoL[BMBR]] > 0){
-                d.units[OoL[BMBR]]--;
+            else if(d.units[defenseOoL[BMBR]] > 0){
+                d.units[defenseOoL[BMBR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[BMBR]];
+                DIPC += IPCvals[defenseOoL[BMBR]];
             }
-            else if(d.units[OoL[AC]] > 0){
-                d.units[OoL[AC]]--;
+            else if(d.units[defenseOoL[AC]] > 0){
+                d.units[defenseOoL[AC]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[AC]];
+                DIPC += IPCvals[defenseOoL[AC]];
             }
-            else if(d.units[OoL[BS]] > 0){
-                d.units[OoL[BS]]--;
+            else if(d.units[defenseOoL[BS]] > 0){
+                d.units[defenseOoL[BS]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[BS]];
+                DIPC += IPCvals[defenseOoL[BS]];
             }
-            else if(d.units[OoL[CRSR]] > 0){
-                d.units[OoL[CRSR]]--;
+            else if(d.units[defenseOoL[CRSR]] > 0){
+                d.units[defenseOoL[CRSR]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[CRSR]];
+                DIPC += IPCvals[defenseOoL[CRSR]];
             }
-            else if(d.units[OoL[DEST]] > 0){
-                d.units[OoL[DEST]]--;
+            else if(d.units[defenseOoL[DEST]] > 0){
+                d.units[defenseOoL[DEST]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[DEST]];
+                DIPC += IPCvals[defenseOoL[DEST]];
             }
-            else if(d.units[OoL[SUB]] > 0){
-                d.units[OoL[SUB]]--;
+            else if(d.units[defenseOoL[SUB]] > 0){
+                d.units[defenseOoL[SUB]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[SUB]];
+                DIPC += IPCvals[defenseOoL[SUB]];
             }
-            else if(d.units[OoL[TRAN]] > 0){
-                d.units[OoL[TRAN]]--;
+            else if(d.units[defenseOoL[TRAN]] > 0){
+                d.units[defenseOoL[TRAN]]--;
                 d.count--;
-                DIPC += IPCvals[OoL[TRAN]];
+                DIPC += IPCvals[defenseOoL[TRAN]];
             }
         }
 
@@ -1105,12 +1106,12 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private javax.swing.JTable ATKtable;
   private javax.swing.JPanel DEFpanel;
   private javax.swing.JTable DEFtable;
-  private javax.swing.JList<String> OoLSetter;
   private javax.swing.JPanel ResultsPanel;
   private javax.swing.JTable ResultsTable;
   private javax.swing.JPanel SettingsPanel;
   private javax.swing.JTable SingleTOATable;
   private javax.swing.JTable SummaryTable;
+  private javax.swing.JCheckBox fireAAgunCheckbox;
   private javax.swing.JCheckBox isAmphibiousAssault;
   private javax.swing.JPanel jPanel1;
   private javax.swing.JScrollPane jScrollPane1;
@@ -1119,7 +1120,6 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private javax.swing.JScrollPane jScrollPane4;
   private javax.swing.JScrollPane jScrollPane5;
   private javax.swing.JScrollPane jScrollPane6;
-  private javax.swing.JScrollPane jScrollPane7;
   private javax.swing.JScrollPane jScrollPane8;
   private javax.swing.JTabbedPane jTabbedPane1;
   private javax.swing.JTable jTable1;
@@ -1133,13 +1133,15 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private DefaultTableModel SingleTOAModel;
   private boolean amphibiousAssault = false;
   private int itercount = 10000;
+  private boolean fireAAgun = true;
   private int[] atkvals = {1, 2, 3, 3, 4, 1, 4, 3, 2, 2, 0, 4};
   private String[] unitnames = {"INF", "ART", "TANK", "FTR", "BMBR", "AC", "BS", "CRSR", "DEST", "SUB", "TRAN", "WBS", "AAG"};
   private int[] defvals = {2, 2, 3, 4, 1, 2, 4, 3, 2, 1, 0, 4};
   private int[] IPCvals = {3, 4, 5, 10, 12, 14, 20, 12, 8, 6, 7, 20};
   private int AAIPC = 6;
   private int[] defaultOoL = {0, 1, 9, 2, 10, 8, 3, 7, 4, 5, 11};
-  private int[] OoL = Arrays.copyOf(defaultOoL, defaultOoL.length);
+  private int[] attackOoL = Arrays.copyOf(defaultOoL, defaultOoL.length);
+  private int[] defenseOoL = Arrays.copyOf(defaultOoL, defaultOoL.length);
   private int[] atkUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   private int[] defUnits = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   private HashMap<BattleResult, Integer> results = new HashMap<BattleResult, Integer>();
