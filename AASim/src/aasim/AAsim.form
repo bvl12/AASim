@@ -485,9 +485,11 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane4" min="-2" pref="381" max="-2" attributes="0"/>
+                  <Component id="jScrollPane4" min="-2" pref="300" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="turnsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -496,7 +498,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jScrollPane4" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="turnsLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" min="-2" pref="55" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -516,8 +521,8 @@
                   <Table columnCount="4" rowCount="2">
                     <Column editable="false" title="" type="java.lang.String"/>
                     <Column editable="false" title="Win %" type="java.lang.Float"/>
-                    <Column editable="false" title="Avg. IPC Cost" type="java.lang.Float"/>
-                    <Column editable="false" title="Ground Units %" type="java.lang.Float"/>
+                    <Column editable="false" title="Avg. IPC" type="java.lang.Float"/>
+                    <Column editable="false" title="Ground %" type="java.lang.Float"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -551,6 +556,14 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="turnsLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Avg. Turns: 0"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="turnsLabel"/>
+          </AccessibilityProperties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

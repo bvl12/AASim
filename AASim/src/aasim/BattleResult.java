@@ -5,12 +5,14 @@ public class BattleResult {
     Units remainingunits;
     int ATKIPC;
     int DEFIPC;
+    int turns;
     
-    public BattleResult(int winner, Units remainingunits, int AIPC, int DIPC){
+    public BattleResult(int winner, Units remainingunits, int AIPC, int DIPC, int turns){
         this.winner = winner;
         this.remainingunits = remainingunits;
         this.ATKIPC = AIPC;
         this.DEFIPC = DIPC;
+        this.turns = turns;
     }
     
     public boolean equals(BattleResult br){

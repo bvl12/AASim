@@ -124,6 +124,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     jPanel1 = new javax.swing.JPanel();
     jScrollPane4 = new javax.swing.JScrollPane();
     SummaryTable = new javax.swing.JTable();
+    turnsLabel = new javax.swing.JLabel();
 
     jTable1.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
@@ -399,7 +400,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         {null, null, null, null}
       },
       new String [] {
-        "", "Win %", "Avg. IPC Cost", "Ground Units %"
+        "", "Win %", "Avg. IPC", "Ground %"
       }
     ) {
       Class[] types = new Class [] {
@@ -419,22 +420,30 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     });
     jScrollPane4.setViewportView(SummaryTable);
 
+    turnsLabel.setText("Avg. Turns: 0");
+
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
       jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(jPanel1Layout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(turnsLabel)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
       jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(turnsLabel)
+          .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap())
     );
+
+    turnsLabel.getAccessibleContext().setAccessibleName("turnsLabel");
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -514,6 +523,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int Dloss = 0;
         int AIPC = 0;
         int DIPC = 0;
+        int turns = 0;
         if(d.units[AAG] > 0 && fireAAgun){
             for(int i = 0; i < a.units[FTR]; i++){
                 if(rollDie()==1)
@@ -548,6 +558,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             }
         }
         while(true){
+            turns++;
             for(int i = 0; i < 12; i++){
                 for(int j = 0; j < a.units[i]; j++){
                     if(i == INF && j < a.units[ART]) {//INF get +1 if they're supported by artillery on ATK
@@ -692,13 +703,13 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
             Dloss = 0;
             if(a.count <= 0){
                 if(d.count <= 0)
-                    return new BattleResult(-1,d, AIPC, DIPC);
-                return new BattleResult(0, d, AIPC, DIPC);
+                    return new BattleResult(-1,d, AIPC, DIPC, turns);
+                return new BattleResult(0, d, AIPC, DIPC, turns);
             }
             if(d.count <= 0){
                 if(a.count <= 0)
-                    return new BattleResult(-1,d, AIPC, DIPC);
-                return new BattleResult(1, a, AIPC, DIPC);
+                    return new BattleResult(-1,d, AIPC, DIPC, turns);
+                return new BattleResult(1, a, AIPC, DIPC, turns);
             }
         }
         
@@ -912,8 +923,11 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int[] d = Arrays.copyOf(defUnits, defUnits.length);
     boolean inMap;
     results.clear();
+    int totalrounds = 0;
+    float averagerounds = 0;
     for(int n = 0; n < iterations; n++){
         BattleResult recentResult = simbat(a,d);
+        totalrounds += recentResult.turns;
         inMap = false;
         for(BattleResult br:results.keySet()){
             if(br.equals(recentResult)){
@@ -929,6 +943,8 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     BattleResult[] br = {};
 
     results = sortMap(results);
+    averagerounds = (float)round(10 * (float)totalrounds / (float)itercount) / 10;
+    turnsLabel.setText("Avg Turns: " + averagerounds);
 
     int ATKwin = 0;
     int DEFwin = 0;
@@ -1125,6 +1141,7 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
   private javax.swing.JTable jTable1;
   private javax.swing.JTable jTable2;
   private javax.swing.JButton resetButton;
+  private javax.swing.JLabel turnsLabel;
   // End of variables declaration//GEN-END:variables
   private DefaultTableModel ATKModel;
   private DefaultTableModel DEFModel;
