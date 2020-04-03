@@ -524,22 +524,39 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
         int AIPC = 0;
         int DIPC = 0;
         int turns = 0;
+        int shots = 0;
+        int maxshots = 3 * d.units[AAG];
         if(d.units[AAG] > 0 && fireAAgun){
-            for(int i = 0; i < a.units[FTR]; i++){
-                if(rollDie()==1)
+            for(int i = 0; i < a.units[FTR] && shots < maxshots; i++){
+              shots++;
+              if(rollDie()==0)
+                Aloss++;
+            }
+            for(int i = 0; i < a.units[BMBR] && shots < maxshots; i++){
+                shots++;
+                if(rollDie()==0)
                     Aloss++;
             }
-            a.units[FTR] -= Aloss;
             a.count -= Aloss;
-            AIPC += IPCvals[FTR] * Aloss;
-           
-            Aloss = 0;
-            for(int i = 0; i < a.units[BMBR]; i++)
-                if(rollDie()==1)
-                    Aloss++;
-            a.units[BMBR] -= Aloss;
-            a.count -= Aloss;
-            AIPC += IPCvals[BMBR] * Aloss;
+            if(attackOoL[FTR] < attackOoL[BMBR]){
+              int ftrcount = a.units[FTR];
+              for(int i = 0; i < ftrcount && Aloss > 0; i++){
+                a.units[FTR]--;
+                AIPC += IPCvals[FTR];
+                Aloss--;
+              }
+              a.units[BMBR] -= Aloss;
+              AIPC += IPCvals[BMBR] * Aloss;
+            } else{
+              int bmbrcount = a.units[BMBR];
+              for(int i = 0; i < bmbrcount && Aloss > 0; i++){
+                a.units[BMBR]--;
+                AIPC += IPCvals[BMBR];
+                Aloss--;
+              }
+              a.units[FTR] -= Aloss;
+              AIPC += IPCvals[FTR] * Aloss;
+            }
             Aloss = 0;
         }
         if(amphibiousAssault){
@@ -722,24 +739,41 @@ public class AAsim extends javax.swing.JFrame implements TableModelListener{
     int Dloss = 0;
     int AIPC = 0;
     int DIPC = 0;
+    int shots = 0;
+    int maxshots = 3 * d.units[AAG];
     boolean AAdestroyed = false;
     if(d.units[AAG] > 0 && fireAAgun){
-      for(int i = 0; i < a.units[FTR]; i++){
-        if(rollDie()==1)
-          Aloss++;
-      }
-      a.units[FTR] -= Aloss;
-      a.count -= Aloss;
-      AIPC += IPCvals[FTR] * Aloss;
-
-      Aloss = 0;
-      for(int i = 0; i < a.units[BMBR]; i++)
-        if(rollDie()==1)
-          Aloss++;
-      a.units[BMBR] -= Aloss;
-      a.count -= Aloss;
-      AIPC += IPCvals[BMBR] * Aloss;
-      Aloss = 0;
+        for(int i = 0; i < a.units[FTR] && shots < maxshots; i++){
+          shots++;
+          if(rollDie()==0)
+            Aloss++;
+        }
+        for(int i = 0; i < a.units[BMBR] && shots < maxshots; i++){
+            shots++;
+            if(rollDie()==0)
+                Aloss++;
+        }
+        a.count -= Aloss;
+        if(attackOoL[FTR] < attackOoL[BMBR]){
+          int ftrcount = a.units[FTR];
+          for(int i = 0; i < ftrcount && Aloss > 0; i++){
+            a.units[FTR]--;
+            AIPC += IPCvals[FTR];
+            Aloss--;
+          }
+          a.units[BMBR] -= Aloss;
+          AIPC += IPCvals[BMBR] * Aloss;
+        } else{
+          int bmbrcount = a.units[BMBR];
+          for(int i = 0; i < bmbrcount && Aloss > 0; i++){
+            a.units[BMBR]--;
+            AIPC += IPCvals[BMBR];
+            Aloss--;
+          }
+          a.units[FTR] -= Aloss;
+          AIPC += IPCvals[FTR] * Aloss;
+        }
+        Aloss = 0;
     }
     if(amphibiousAssault){
         for(int i = 0; i < a.units[BS] + a.units[WBS]; i++){
